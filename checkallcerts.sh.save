@@ -1,0 +1,6 @@
+for x in *.crt ; do
+	openssl x509 -enddate -noout -in ${x}
+	zenity --error --width 300 --text "Data wygasniecia certyfikatu $x to:"
+        echo "Data wygasniecia certyfikatu $x to:"
+	echo "\n"
+done

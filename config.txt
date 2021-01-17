@@ -1,0 +1,24 @@
+#start of config file
+
+
+
+#directory of local certificates (if none script will ask)
+loc_dir=./
+
+
+
+#mail to send reminders to (if none script will ask)
+def_mail=projektzit55@gmail.com
+
+
+
+#websites to fetch certificates
+conf_websites="google.com onet.pl pwr.edu.pl"
+
+
+
+#directory to store log files (if none there will be no logs stored)NOT YET WORKING
+#log_dir=/home/filipp/Desktop
+
+
+
