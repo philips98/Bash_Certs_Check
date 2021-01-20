@@ -1,24 +1,18 @@
-#start of config file
+#START OF CONFIG FILE
 
-
-
-#directory of local certificates (if none script will ask)
+#DEFAULT LOCAL CERTIFICATES DIRECTORY PATH
 loc_dir=./
 
 
-
-#mail to send reminders to (if none script will ask)
+#MAIL TO SEND EXPIRING CERTS SUMMARY LIST
 def_mail=projektzit55@gmail.com
 
 
-
-#websites to fetch certificates
-conf_websites="google.com onet.pl pwr.edu.pl"
-
+#WEBSITES TO FETCH CERTIFICATES FROM
+conf_websites="pwr.edu.pl google.com wcss.pl badssl.com"
 
 
-#directory to store log files (if none there will be no logs stored)NOT YET WORKING
-#log_dir=/home/filipp/Desktop
+
 
 
 
