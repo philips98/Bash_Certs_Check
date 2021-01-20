@@ -1,12 +1,6 @@
 #!/bin/bash
 source config.txt
 
-seconds_now=$(date -d "${orig}" +"%s")
-#LOGGING
-#exec 3>&1 4>&2
-#trap 'exec 2>&4 1>&3' 0 1 2 3
-#exec 1>/home/filipp/Desktop/logs/log$secondsnow.out 2>&1
-
 
 
 #WYBOR SCIEZKI LOKALNYCH CERTYFIKATOW
@@ -42,6 +36,7 @@ printf "Lista uslug WWW do sprawdzenia: \n"
 printf '%s\n' "${websites_arr[@]}"
 
 #STWORZENIE KATALOGU NA ZDALNE CERTYFIKATY I PRZEJSCIE DO NIEGO
+seconds_now=$(date +"%s")
 wwwdirname="RemoteCerts$seconds_now"
 mkdir "$wwwdirname"
 cd "$wwwdirname"
