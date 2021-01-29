@@ -11,6 +11,17 @@ def_mail=projektzit55@gmail.com
 #WEBSITES TO FETCH CERTIFICATES FROM
 conf_websites="pwr.edu.pl google.com wcss.pl badssl.com"
 
+#PORT TO FETCH CERTIFICATES
+conf_port=443
+
+#TIMES OF REMINDERS BEFORE CERT EXPIRY (IN SECONDS)
+conf_1st_rem=604800	#7 days
+#conf_1st_rem=302400	#3,5 days
+
+conf_2nd_rem=86400	#1 day
+#conf_2nd_rem=43200	#12 hours
+
+
 
 
 

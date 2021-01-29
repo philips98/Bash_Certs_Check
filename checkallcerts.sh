@@ -41,16 +41,23 @@ wwwdirname="RemoteCerts$seconds_now"
 mkdir "$wwwdirname"
 cd "$wwwdirname"
 
+#POBRANIE NUMERU PORTU Z KONFIGURACJi
+port=$conf_port
+
 #POBIERANIE ZDALNYCH CERTYFIKATOW
 for www in "${websites_arr[@]}"
 	do
-		echo | openssl s_client -servername $www -connect $www:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > $www.crt
+		echo | openssl s_client -servername $www -connect $www:$port | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > $www.crt
 done
 
 #ZDEFINIOWANIE POTENCJALNEJ WIADOMOSCI EMAIL
 message="\nLista certyfikatow: \n"
 printf "$message"
 
+#ZAMIANA CZASU POWIADOMIEN Z KONFIGURACJI NA DNI
+day=86400
+rem1= expr $conf_1st_rem / $day
+rem2= expr $conf_2nd_rem / $day
 
 #SPRAWDZANIE CERTYFIKATOW ZDALNYCH POD KATEM WAZNOSCI
 for x in *.crt ; do
@@ -65,22 +72,22 @@ for x in *.crt ; do
 	printf "epoch conv = $epoch\n"
 	printf "expiring = $expiring\n"
 	
-	if [ $expiring -gt 86400 -a $expiring -lt 604800 ]
+	if [ $expiring -gt 86400 -a $expiring -lt $conf_1st_rem ]
 		then
-		zenity --info --width 300 --text "Ten certyfikat wygasa za mniej niz 7 dni.\nData wygasniecia certyfikatu $x to: $data\n"
-		message="$message\nTen certyfikat wygasa za mniej niz 7 dni - $x (Data: $data)\n"	
+		zenity --info --width 300 --text "Ten certyfikat wygasa za mniej niz $rem1 dni.\nData wygasniecia certyfikatu $x to: $data\n"
+		message="$message\nTen certyfikat wygasa za mniej niz $rem1 dni - $x (Data: $data)\n"	
 		if [ "$ifnotify" -eq "0" ]
-			then printf 'notify-send' "Certyfikat $x wygasa za 7 dni." | at $data
+			then printf 'notify-send' "Certyfikat $x wygasa za $rem1 dni." | at $data
 			echo "Utworzono przypomnienie na $data"
 		fi	
 	fi
 	
-	if [ $expiring -gt 0 -a $expiring -lt 86400 ]
+	if [ $expiring -gt 0 -a $expiring -lt $conf_2nd_rem ]
 		then
-		zenity --warning --width 300 --text "Uwaga, ten certyfikat wygasa za mniej niz 1 dzien.\nData wygasniecia certyfikatu $x to:\n $data\n"
-		message="$message\nTen certyfikat wygasa za mniej niz 1 dzien - $x (Data: $data)\n"
+		zenity --warning --width 300 --text "Uwaga, ten certyfikat wygasa za mniej niz $rem2 dni.\nData wygasniecia certyfikatu $x to:\n $data\n"
+		message="$message\nTen certyfikat wygasa za mniej niz $rem2 dni - $x (Data: $data)\n"
 		if [ "$ifnotify" -eq "0" ]
-			then echo 'notify-send' "Certyfikat $x wygasa za 1 dzien" | at $data
+			then echo 'notify-send' "Certyfikat $x wygasa za $rem2 dni" | at $data
 			printf "Utworzono przypomnienie na $data"
 		fi	
 	fi
@@ -114,22 +121,22 @@ for x in *.crt ; do
 	printf "epoch conv = $epoch\n"
 	printf "expiring = $expiring\n"
 	
-	if [ $expiring -gt 86400 -a $expiring -lt 604800 ]
+	if [ $expiring -gt 86400 -a $expiring -lt $conf_1st_rem ]
 		then
-		zenity --info --width 300 --text "Ten certyfikat wygasa za mniej niz 7 dni.\nData wygasniecia certyfikatu $x to: $data\n"
-		message="$message\nTen certyfikat wygasa za mniej niz 7 dni - $x (Data: $data)\n"	
+		zenity --info --width 300 --text "Ten certyfikat wygasa za mniej niz $rem1 dni.\nData wygasniecia certyfikatu $x to: $data\n"
+		message="$message\nTen certyfikat wygasa za mniej niz $rem1 dni - $x (Data: $data)\n"	
 		if [ "$ifnotify" -eq "0" ]
-			then printf 'notify-send' "Certyfikat $x wygasa za 7 dni." | at $data
+			then printf 'notify-send' "Certyfikat $x wygasa za $rem1 dni." | at $data
 			echo "Utworzono przypomnienie na $data"
 		fi	
 	fi
 	
-	if [ $expiring -gt 0 -a $expiring -lt 86400 ]
+	if [ $expiring -gt 0 -a $expiring -lt $conf_2nd_rem ]
 		then
-		zenity --warning --width 300 --text "Uwaga, ten certyfikat wygasa za mniej niz 1 dzien.\nData wygasniecia certyfikatu $x to:\n $data\n"
-		message="$message\nTen certyfikat wygasa za mniej niz 1 dzien - $x (Data: $data)\n"
+		zenity --warning --width 300 --text "Uwaga, ten certyfikat wygasa za mniej niz $rem2 dni.\nData wygasniecia certyfikatu $x to:\n $data\n"
+		message="$message\nTen certyfikat wygasa za mniej niz $rem2 dni - $x (Data: $data)\n"
 		if [ "$ifnotify" -eq "0" ]
-			then echo 'notify-send' "Certyfikat $x wygasa za 1 dzien" | at $data
+			then echo 'notify-send' "Certyfikat $x wygasa za $rem2 dni" | at $data
 			printf "Utworzono przypomnienie na $data"
 		fi	
 	fi
